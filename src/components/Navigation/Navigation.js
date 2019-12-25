@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { IoMdHome, IoMdHeart, IoIosCalendar, IoIosAddCircle, IoMdMail, IoMdContact, IoIosSearch } from "react-icons/io";
+import { IoMdHome, IoMdHeart, IoMdCart, IoMdMail, IoMdContact, IoIosSearch } from "react-icons/io";
+import {MdAttachMoney} from "react-icons/md";
 import NavItem from './hoc';
 
 import styles from './Navigation.module.scss';
@@ -8,8 +9,8 @@ import styles from './Navigation.module.scss';
 const Navigation = (props) => {
     const HomeNav =  NavItem(IoMdHome);
     const LikesNav =  NavItem(IoMdHeart);
-    const PlansNav =  NavItem(IoIosCalendar);
-    const HostNav =  NavItem(IoIosAddCircle);
+    const BoughtNav =  NavItem(IoMdCart);
+    const SellNav =  NavItem(MdAttachMoney);
     const InboxNav =  NavItem(IoMdMail);
     const MyPageNav =  NavItem(IoMdContact);
     const AuthNav =  NavItem(IoMdContact);
@@ -18,8 +19,8 @@ const Navigation = (props) => {
     const navs = props.auth.isAuthenticated ? (
         <React.Fragment>
             <LikesNav linkTo="/likes">Likes</LikesNav>
-            <PlansNav linkTo="/plans">Plans</PlansNav>
-            <HostNav linkTo="/host">Host</HostNav>
+            <BoughtNav linkTo="/bought">Bought</BoughtNav>
+            <SellNav linkTo="/sell">Sell</SellNav>
             <InboxNav linkTo="/inbox">Inbox</InboxNav>
             <MyPageNav linkTo="/mypage">My Page</MyPageNav>
         </React.Fragment>

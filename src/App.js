@@ -12,11 +12,11 @@ import HomePage from './containers/HomePage/HomePage';
 const LikePage = () => (
   <p>LikePage</p>
 );
-const PlansPage = () => (
-  <p>PlansPage</p>
+const BoughtPage = () => (
+  <p>BoughtPage</p>
 );
-const HostPage = () => (
-  <p>HostPage</p>
+const SellPage = () => (
+  <p>SellPage</p>
 );
 const NotFoundPage = () => (
   <p>404</p>
@@ -30,8 +30,8 @@ const App = (props) => {
         <Switch>
         <Route path="/home" exact component={HomePage} />
         <Route path="/likes" component={LikePage} />
-        <Route path="/plans" component={PlansPage} />
-        <Route path="/host" component={HostPage} />
+        <Route path="/bought" component={BoughtPage} />
+        <Route path="/sell" component={SellPage} />
         <Route path="/inbox" component={InboxPage} />
         <Route path="/mypage" component={MyPage} />
         <Route path="/auth" component={AuthPage} />
