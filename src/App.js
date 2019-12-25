@@ -6,11 +6,9 @@ import { connect } from 'react-redux';
 import Layout from './hoc/Layout/Layout';
 import AuthPage from './containers/AuthPage/AuthPage';
 import MyPage from './containers/MyPage/MyPage';
+import InboxPage from './containers/InboxPage/InboxPage';
+import HomePage from './containers/HomePage/HomePage';
 
-
-const HomePage = () => (
-  <p>HomePage</p>
-);
 const LikePage = () => (
   <p>LikePage</p>
 );
@@ -19,9 +17,6 @@ const PlansPage = () => (
 );
 const HostPage = () => (
   <p>HostPage</p>
-);
-const InboxPage = () => (
-  <p>InboxPage</p>
 );
 const NotFoundPage = () => (
   <p>404</p>

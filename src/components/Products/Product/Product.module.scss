@@ -1,0 +1,42 @@
+.Product {
+    width: 100%;
+    font-size: 1.3rem;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-template-rows: [image-start] auto [image-end place-date-start] 1.6rem [place-date-end title-start] 3.2rem [title-end price-start] 1.6rem [price-end];
+    grid-row-gap: 3px;
+
+}
+
+.Image {
+    grid-row: image-start/image-end;
+    grid-column: 1/-1;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.Place {
+    grid-row: place-date-start / place-date-end;
+    grid-column: 1/2;
+    font-weight: bold;
+}
+
+.Date {
+    grid-row: place-date-start / place-date-end;
+    grid-column: 2/-1;
+    justify-self: end;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.Title {
+    grid-row: title-start / title-end;
+    grid-column: 1/-1;
+}
+
+.Price {
+    grid-row: price-start / price-end;
+    grid-column: 1/-1;
+    font-weight: bold;
+}
