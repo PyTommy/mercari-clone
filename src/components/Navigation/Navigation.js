@@ -30,7 +30,7 @@ const Navigation = (props) => {
     return (
         <header className={styles.Navigation} >
             <div className={styles.search}>
-                <input placeholder="Search"/>
+                <input placeholder="Search" className={styles.searchInput}/>
                 <button><IoIosSearch className={styles.searchIcon} /></button>
             </div>
             <ul className={styles.NavigationItems}>

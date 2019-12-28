@@ -1,0 +1,19 @@
+.Alert {
+    padding: 0.8rem;
+    margin: 1rem auto;
+    opacity: 0.9;
+    width: 80%;
+    max-width: 50rem;
+    border-radius: 3px;
+    z-index: 100;
+}
+
+.Success {
+    background:rgba(#28a745, .8);
+    color: white;
+}
+
+.Danger {
+    background: rgba(#dc3545, .2);
+    color: #dc3545;
+}

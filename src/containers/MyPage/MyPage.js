@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+// action creators
 import {logout} from '../../actions/auth';
 
 
 const MyPage = (props) => {
     const logoutHandler = () => {
-        props.dispatch(logout());
+        props.logout();
         props.history.push('/home');
     };
     return (
@@ -17,4 +18,4 @@ const MyPage = (props) => {
     );
 };
 
-export default connect()(MyPage);
+export default connect(null, {logout})(MyPage);

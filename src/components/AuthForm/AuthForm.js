@@ -1,36 +1,54 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import styles from './AuthForm.module.scss';
-
+import { setAlert } from '../../actions/alert';
 
 class AuthForm extends Component {
     state = {
-        username: "",
+        name: "",
         email: "",
         password: "",
+        password2: "",
 
-        isSignup: false
+        isSignup: true
     }
-
     formTypeChange = (boolean) => {
-        this.setState(()=> ({isSignup: boolean}));
+        if (boolean !== this.state.isSignup) {
+            this.setState(()=> ({
+                name: "",
+                email: "",
+                password: "",
+                password2: "",
+                isSignup: boolean
+            }));
+        } 
     }
 
-    onUsernameChange = (e) => {
-        const username = e.target.value;
-        this.setState(() => ({username}));
-    }
-    onEmailChange = (e) => {
-        const email = e.target.value;
-        this.setState(() => ({email}));
-    }
-    onPasswordChange = (e) => {
-        const password = e.target.value;
-        this.setState(() => ({password}));
-    }
+    onChange = (e) => {
+        e.preventDefault();
+        e.persist();
+
+        this.setState((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }));
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.loginHandler();
+        
+        if (this.state.isSignup) { // SignUp
+            const { name, email, password, password2 } = this.state;
+            if ( password !== password2 ) {
+                this.props.setAlert("password do not much", "danger");
+            } else {
+                console.log("Success");
+            }
+            
+        } else { // Login
+            this.props.loginHandler();
+        }
     } 
 
     render() {
@@ -42,6 +60,7 @@ class AuthForm extends Component {
         } else {
             loginButtonClass.push(styles.active);
         }
+
 
         return (
             <div className={styles.AuthForm}>
@@ -62,22 +81,38 @@ class AuthForm extends Component {
                         <input 
                             type="text" 
                             placeholder="Username"
-                            value={this.state.username}
-                            onChange={this.onUsernameChange}
+                            value={this.state.name}
+                            onChange={e => this.onChange(e)}
+                            name="name"
+                            required
                         />
                     )}
                     <input 
                         type="email" 
                         placeholder="Email"
                         value={this.state.email}
-                        onChange={this.onEmailChange}
+                        onChange={this.onChange}
+                        name="email"
+                        required
                     />
                     <input 
                         type="password" 
                         placeholder="Password"
                         value={this.state.password}
-                        onChange={this.onPasswordChange}
+                        onChange={this.onChange}
+                        name="password"
+                        required
                     />
+                    { this.state.isSignup &&
+                        <input 
+                            type="password" 
+                            placeholder="Comfirm Password"
+                            value={this.state.password2}
+                            onChange={this.onChange}
+                            name="password2"
+                            required
+                        />
+                    }
                     <button className={styles.submit}>{this.state.isSignup ? "Signup" : "Login"}</button>
                 </form>
             </div>
@@ -86,4 +121,5 @@ class AuthForm extends Component {
 };
 
 
-export default AuthForm;
+
+export default connect(null, {setAlert})(AuthForm);

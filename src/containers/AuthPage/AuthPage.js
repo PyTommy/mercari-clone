@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {login} from '../../actions/auth';
 import AuthForm from '../../components/AuthForm/AuthForm';
 
-const AuthPage = (props) => {
+// action creators
+import {login} from '../../actions/auth';
 
+const AuthPage = (props) => {
     const loginHandler = () => {
-        props.dispatch(login());
+        props.login();
         props.history.push('/home');
     };
     console.log(props);
@@ -21,4 +22,4 @@ const AuthPage = (props) => {
     );
 };
 
-export default connect()(AuthPage);
+export default connect(null, {login})(AuthPage);
