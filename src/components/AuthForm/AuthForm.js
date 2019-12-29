@@ -1,125 +1,140 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import styles from './AuthForm.module.scss';
 import { setAlert } from '../../actions/alert';
+import { register, login } from '../../actions/auth';
 
-class AuthForm extends Component {
-    state = {
-        name: "",
-        email: "",
-        password: "",
-        password2: "",
+const AuthForm = (props) => {
+    // State
+    const [formData, setFormData]  = useState({
+        name: "tommy",
+        email: "test@apu.ac.jp",
+        password: "testtest",
+        password2: "testtest"
+    });
+    const [isSignup, setIsSignup] = useState(true);
 
-        isSignup: true
-    }
-    formTypeChange = (boolean) => {
-        if (boolean !== this.state.isSignup) {
-            this.setState(()=> ({
+    // Functions
+    const formTypeChange = (boolean) => {
+        if (boolean !== isSignup) {
+            setFormData(()=> ({
                 name: "",
                 email: "",
                 password: "",
                 password2: "",
-                isSignup: boolean
             }));
+            setIsSignup(boolean);
         } 
     }
 
-    onChange = (e) => {
+    const onChange = (e) => {
         e.preventDefault();
         e.persist();
 
-        this.setState((prevState) => ({
+        setFormData((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value
         }));
     };
 
-    onSubmit = (e) => {
+
+    const onSubmit = (e) => {
         e.preventDefault();
+        const { name, email, password, password2 } = formData;
         
-        if (this.state.isSignup) { // SignUp
-            const { name, email, password, password2 } = this.state;
+        if (isSignup) { // SignUp
             if ( password !== password2 ) {
-                this.props.setAlert("password do not much", "danger");
+                props.setAlert("password do not much", "danger");
             } else {
-                console.log("Success");
-            }
-            
+                props.register({name, email, password});
+            }            
         } else { // Login
-            this.props.loginHandler();
+            props.login({email, password});
         }
     } 
 
-    render() {
-        const signupButtonClass = [styles.onSignupChange];
-        const loginButtonClass = [styles.onLoginChange];
+    // Styles for Signup/Login buttons
+    const signupButtonClass = [styles.onSignupChange];
+    const loginButtonClass = [styles.onLoginChange];
+    if (isSignup) {
+        signupButtonClass.push(styles.active);
+    } else {
+        loginButtonClass.push(styles.active);
+    }
 
-        if (this.state.isSignup) {
-            signupButtonClass.push(styles.active);
-        } else {
-            loginButtonClass.push(styles.active);
-        }
+    if (props.auth.isAuthenticated) {
+        return <Redirect to="/" />;
+    };
 
-
-        return (
-            <div className={styles.AuthForm}>
-                <div className={styles.isSignupContainer}>
-                    <button 
-                        className={signupButtonClass.join(" ")}
-                        onClick={() => this.formTypeChange(true)}
-                        >Signup
-                    </button>
-                    <button 
-                        className={loginButtonClass.join(" ")}
-                        onClick={() => this.formTypeChange(false)}
-                        >Login
-                    </button>
-                </div>
-                <form onSubmit={this.onSubmit}>
-                    {this.state.isSignup && (
-                        <input 
-                            type="text" 
-                            placeholder="Username"
-                            value={this.state.name}
-                            onChange={e => this.onChange(e)}
-                            name="name"
-                            required
-                        />
-                    )}
+    return (
+        <div className={styles.AuthForm}>
+            <div className={styles.isSignupContainer}>
+                <button 
+                    className={signupButtonClass.join(" ")}
+                    onClick={() => formTypeChange(true)}
+                    >Signup
+                </button>
+                <button 
+                    className={loginButtonClass.join(" ")}
+                    onClick={() => formTypeChange(false)}
+                    >Login
+                </button>
+            </div>
+            <form onSubmit={onSubmit}>
+                {isSignup && (
                     <input 
-                        type="email" 
-                        placeholder="Email"
-                        value={this.state.email}
-                        onChange={this.onChange}
-                        name="email"
+                        type="text" 
+                        placeholder="Username"
+                        value={formData.name}
+                        onChange={e => onChange(e)}
+                        name="name"
                         required
                     />
+                )}
+                <input 
+                    type="email" 
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={onChange}
+                    name="email"
+                    required
+                />
+                <input 
+                    type="password" 
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={onChange}
+                    name="password"
+                    required
+                />
+                { isSignup &&
                     <input 
                         type="password" 
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChange={this.onChange}
-                        name="password"
+                        placeholder="Comfirm Password"
+                        value={formData.password2}
+                        onChange={onChange}
+                        name="password2"
                         required
                     />
-                    { this.state.isSignup &&
-                        <input 
-                            type="password" 
-                            placeholder="Comfirm Password"
-                            value={this.state.password2}
-                            onChange={this.onChange}
-                            name="password2"
-                            required
-                        />
-                    }
-                    <button className={styles.submit}>{this.state.isSignup ? "Signup" : "Login"}</button>
-                </form>
-            </div>
-        );
-    }
+                }
+                <button className={styles.submit}>{isSignup ? "Signup" : "Login"}</button>
+            </form>
+        </div>
+    );
 };
 
+AuthForm.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+}
 
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
 
-export default connect(null, {setAlert})(AuthForm);
+export default connect(mapStateToProps, {setAlert, register, login})(AuthForm);
