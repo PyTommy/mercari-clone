@@ -1,42 +1,53 @@
 .Product {
     width: 100%;
-    font-size: 1.3rem;
-    line-height: 1.1;
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    grid-template-rows: [image-start] auto [image-end place-date-start] 1.6rem [place-date-end title-start] 3.2rem [title-end price-start] 1.6rem [price-end];
-    grid-row-gap: 3px;
+    line-height: 1.2;
+    margin-bottom: 2rem;
 
+    display: flex;
+    flex-direction: column;
 }
 
+// User Info
+.User {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+.UserPicture {
+
+}
+.UserName{
+    margin-left: 1.5rem;
+}
+
+// Main Image
 .Image {
-    grid-row: image-start/image-end;
-    grid-column: 1/-1;
     width: 100%;
-    border-radius: 5px;
 }
 
-.Place {
-    grid-row: place-date-start / place-date-end;
-    grid-column: 1/2;
+// Texts
+.TextBox{
+    display: flex;
+    padding: 1rem 1rem .3rem 1rem;
+    justify-content: space-between;
+}
+.Main {
     font-weight: bold;
+    font-size: 2rem;
+    padding: .5rem
+}
+.Subs {
+    text-align: right;
+    font-size: 1.5rem;
 }
 
-.Date {
-    grid-row: place-date-start / place-date-end;
-    grid-column: 2/-1;
-    justify-self: end;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
 
-.Title {
-    grid-row: title-start / title-end;
-    grid-column: 1/-1;
-}
+// Bottom Bar
+.BottomBar {
+    padding: .5rem 2rem;
+    font-size: 1.3rem;
+    color: #999;
 
-.Price {
-    grid-row: price-start / price-end;
-    grid-column: 1/-1;
-    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
 }

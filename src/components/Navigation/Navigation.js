@@ -34,7 +34,7 @@ const Navigation = (props) => {
                 <button><IoIosSearch className={styles.searchIcon} /></button>
             </div>
             <ul className={styles.NavigationItems}>
-                <HomeNav linkTo="/home">Home</HomeNav>
+                <HomeNav linkTo="/products">Home</HomeNav>
                 { navs }
             </ul>
         </header>

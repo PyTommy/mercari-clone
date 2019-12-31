@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import Spinner from '../UI/Spinner/Spinner';
 
-import styles from './AuthForm.module.scss';
+import styles from './Auth.module.scss';
 import { setAlert } from '../../actions/alert';
 import { register, login } from '../../actions/auth';
 
-const AuthForm = (props) => {
+const Auth = (props) => {
     // State
     const [formData, setFormData]  = useState({
         name: "tommy",
@@ -69,8 +70,9 @@ const AuthForm = (props) => {
         return <Redirect to="/" />;
     };
 
+
     return (
-        <div className={styles.AuthForm}>
+        <div className={styles.Auth}>
             <div className={styles.isSignupContainer}>
                 <button 
                     className={signupButtonClass.join(" ")}
@@ -83,50 +85,53 @@ const AuthForm = (props) => {
                     >Login
                 </button>
             </div>
-            <form onSubmit={onSubmit}>
-                {isSignup && (
+
+            { props.auth.loading ? <Spinner /> :
+                <form onSubmit={onSubmit}>
+                    {isSignup && (
+                        <input 
+                            type="text" 
+                            placeholder="Username"
+                            value={formData.name}
+                            onChange={e => onChange(e)}
+                            name="name"
+                            required
+                        />
+                    )}
                     <input 
-                        type="text" 
-                        placeholder="Username"
-                        value={formData.name}
-                        onChange={e => onChange(e)}
-                        name="name"
+                        type="email" 
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={onChange}
+                        name="email"
                         required
                     />
-                )}
-                <input 
-                    type="email" 
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={onChange}
-                    name="email"
-                    required
-                />
-                <input 
-                    type="password" 
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={onChange}
-                    name="password"
-                    required
-                />
-                { isSignup &&
                     <input 
                         type="password" 
-                        placeholder="Comfirm Password"
-                        value={formData.password2}
+                        placeholder="Password"
+                        value={formData.password}
                         onChange={onChange}
-                        name="password2"
+                        name="password"
                         required
                     />
-                }
-                <button className={styles.submit}>{isSignup ? "Signup" : "Login"}</button>
-            </form>
+                    { isSignup &&
+                        <input 
+                            type="password" 
+                            placeholder="Comfirm Password"
+                            value={formData.password2}
+                            onChange={onChange}
+                            name="password2"
+                            required
+                        />
+                    }
+                    <button className={styles.submit}>{isSignup ? "Signup" : "Login"}</button>
+                </form>
+            }
         </div>
     );
 };
 
-AuthForm.propTypes = {
+Auth.propTypes = {
     setAlert: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     login: PropTypes.func.isRequired,
@@ -137,4 +142,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, {setAlert, register, login})(AuthForm);
+export default connect(mapStateToProps, {setAlert, register, login})(Auth);

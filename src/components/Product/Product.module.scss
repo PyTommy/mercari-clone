@@ -1,0 +1,30 @@
+.Product {
+    width: 100%;
+    line-height: 1.2;
+
+    display: flex;
+    flex-direction: column;
+}
+.Container {
+    padding: 0 2rem;
+}
+
+// User Info
+.User {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+.UserPicture {
+
+}
+.UserName{
+    margin-left: 1.5rem;
+}
+
+// Main Image
+.Image {
+    width: 100%;
+}
+
+// Comments

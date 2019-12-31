@@ -6,10 +6,12 @@ import {loadUser} from './actions/auth';
 
 // Import Components
 import Layout from './hoc/Layout/Layout';
-import AuthPage from './containers/AuthPage/AuthPage';
 import MyPage from './containers/MyPage/MyPage';
 import InboxPage from './containers/InboxPage/InboxPage';
-import HomePage from './containers/HomePage/HomePage';
+
+import Auth from './components/Auth/Auth';
+import Products from './components/Products/Products';
+import Product from './components/Product/Product';
 
 
 class App extends Component {
@@ -37,13 +39,14 @@ class App extends Component {
       <BrowserRouter>
         <Layout>
           <Switch>
-          <Route path="/home" exact component={HomePage} />
+          <Route path="/products/:id" component={Product}/> 
+          <Route path="/products" component={Products} />
           <Route path="/likes" component={LikePage} />
           <Route path="/bought" component={BoughtPage} />
           <Route path="/sell" component={SellPage} />
           <Route path="/inbox" component={InboxPage} />
           <Route path="/mypage" component={MyPage} />
-          <Route path="/auth" component={AuthPage} />
+          <Route path="/auth" component={Auth} />
           <Redirect from="/" exact to="/home" />
           <Route component={NotFoundPage}/>
         </Switch>
