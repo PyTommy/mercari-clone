@@ -12,6 +12,7 @@ import InboxPage from './containers/InboxPage/InboxPage';
 import Auth from './components/Auth/Auth';
 import Products from './components/Products/Products';
 import SingleProduct from './components/SingleProduct/SingleProduct';
+import Sell from './components/Sell/Sell';
 
 
 class App extends Component {
@@ -43,7 +44,7 @@ class App extends Component {
           <Route path="/products" component={Products} />
           <Route path="/likes" component={LikePage} />
           <Route path="/bought" component={BoughtPage} />
-          <Route path="/sell" component={SellPage} />
+          <Route path="/sell" component={Sell} />
           <Route path="/inbox" component={InboxPage} />
           <Route path="/mypage" component={MyPage} />
           <Route path="/auth" component={Auth} />

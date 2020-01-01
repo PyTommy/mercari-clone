@@ -4,7 +4,7 @@ import classes from './Button.module.scss';
 const Button = ({
     children,
     className,
-    styles,
+    style,
     onClick,
     btnType = ""
 }) => {
@@ -23,7 +23,7 @@ const Button = ({
     return (
         <button
             onClick={onClick}
-            styles={styles}
+            style={style}
             className={appliedClasses.join(" ")}
             >
             {children}

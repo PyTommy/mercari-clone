@@ -25,3 +25,12 @@ export const LOGOUT = "LOGOUT";
 // ==========
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
+
+
+// ==========
+// Products
+// ==========
+// Create
+export const SET_PRODUCT_START = "SET_PRODUCT_START";
+export const SET_PRODUCT_SUCCESS = "SET_PRODUCT_SUCCESS";
+export const SET_PRODUCT_FAIL = "SET_PRODUCT_FAIL";

@@ -2,14 +2,15 @@ import React from 'react'
 import classes from './Input.module.scss';
 
 const Input = ({
+    id,
     type, 
     placeholder, 
-    value, 
+    value = "", 
     onChange, 
     name, 
     required = false, 
     className,
-    styles
+    style
 }) => {
     let input;
     if (type === "textarea") {
@@ -20,7 +21,7 @@ const Input = ({
             name={name}
             required={required}
             className={[classes.Textarea, className].join(" ")}
-            styles={styles}
+            style={style}
         />);
     } else {
         input = (<input 
@@ -31,7 +32,7 @@ const Input = ({
             name={name}
             required={required}            
             className={[classes.Input, className].join(" ")}
-            styles={classes}
+            style={style}
         />);
     }
 
