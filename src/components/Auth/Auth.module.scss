@@ -57,27 +57,3 @@ form {
     flex-direction: column;
     align-items: center;
 }
-
-input {
-    font-size: inherit;
-    display: block;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: .5rem .5rem;
-    margin-bottom: 1rem;
-}
-
-.submit {
-    font-size: inherit;
-    width: 10rem;
-    margin-top: 1rem;
-    padding: .5rem 1rem;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    outline: none;
-    background-color: $color-primary;
-
-    justify-self: center;
-}

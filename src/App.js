@@ -11,7 +11,7 @@ import InboxPage from './containers/InboxPage/InboxPage';
 
 import Auth from './components/Auth/Auth';
 import Products from './components/Products/Products';
-import Product from './components/Product/Product';
+import SingleProduct from './components/SingleProduct/SingleProduct';
 
 
 class App extends Component {
@@ -39,7 +39,7 @@ class App extends Component {
       <BrowserRouter>
         <Layout>
           <Switch>
-          <Route path="/products/:id" component={Product}/> 
+          <Route path="/products/:id" component={SingleProduct}/> 
           <Route path="/products" component={Products} />
           <Route path="/likes" component={LikePage} />
           <Route path="/bought" component={BoughtPage} />
@@ -47,7 +47,7 @@ class App extends Component {
           <Route path="/inbox" component={InboxPage} />
           <Route path="/mypage" component={MyPage} />
           <Route path="/auth" component={Auth} />
-          <Redirect from="/" exact to="/home" />
+          <Redirect from="/" exact to="/products" />
           <Route component={NotFoundPage}/>
         </Switch>
         </Layout>

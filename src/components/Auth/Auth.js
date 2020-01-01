@@ -3,6 +3,8 @@ import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../UI/Spinner/Spinner';
+import Input from '../UI/Input/Input';
+import Button from '../UI/Button/Button';
 
 import styles from './Auth.module.scss';
 import { setAlert } from '../../actions/alert';
@@ -89,7 +91,7 @@ const Auth = (props) => {
             { props.auth.loading ? <Spinner /> :
                 <form onSubmit={onSubmit}>
                     {isSignup && (
-                        <input 
+                        <Input 
                             type="text" 
                             placeholder="Username"
                             value={formData.name}
@@ -98,7 +100,7 @@ const Auth = (props) => {
                             required
                         />
                     )}
-                    <input 
+                    <Input 
                         type="email" 
                         placeholder="Email"
                         value={formData.email}
@@ -106,7 +108,7 @@ const Auth = (props) => {
                         name="email"
                         required
                     />
-                    <input 
+                    <Input 
                         type="password" 
                         placeholder="Password"
                         value={formData.password}
@@ -115,7 +117,7 @@ const Auth = (props) => {
                         required
                     />
                     { isSignup &&
-                        <input 
+                        <Input 
                             type="password" 
                             placeholder="Comfirm Password"
                             value={formData.password2}
@@ -124,7 +126,7 @@ const Auth = (props) => {
                             required
                         />
                     }
-                    <button className={styles.submit}>{isSignup ? "Signup" : "Login"}</button>
+                    <Button btnType="color-primary">{isSignup ? "Signup" : "Login"}</Button>
                 </form>
             }
         </div>
