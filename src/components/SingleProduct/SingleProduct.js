@@ -25,7 +25,7 @@ const Product = ({
     },[getProduct, match.params.id]);
     const isLiked = true;
 
-    if (loading) return <Spinner/>;
+    if (loading.getProduct) return <Spinner/>;
 
     let content;
     if (!product) {
@@ -49,7 +49,11 @@ const Product = ({
                 { auth.isAuthenticated && auth.user._id === product.user &&(
                     <Fragment>
                         <Button btnType="color-orange size-sm">Edit</Button>
-                        <Button btnType="color-danger size-sm" onClick={(e) => deleteProduct(match.params.id)}>Delete</Button>
+                        <Button btnType="color-danger size-sm" onClick={(e) => {
+                            deleteProduct(match.params.id);
+                            history.push('/products');
+                            }}>Delete
+                        </Button>
                     </Fragment>)
                  }
                 {
@@ -92,7 +96,7 @@ const Product = ({
 
 Product.propTypes = {
     product: PropTypes.object,
-    loading: PropTypes.bool.isRequired,
+    loading: PropTypes.object.isRequired,
     getProduct: PropTypes.func.isRequired,
     deleteProduct:PropTypes.func.isRequired,
     auth: PropTypes.object,

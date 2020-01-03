@@ -19,7 +19,7 @@ const Products = ({ getProducts, product: {products, loading}}) => {
             return <Product key={product._id} product={product} />;
         });
 
-    if (loading) {
+    if (loading.getProducts) {
         return <Spinner/>;
     }
 

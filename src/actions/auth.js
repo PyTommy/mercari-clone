@@ -34,12 +34,13 @@ export const loadUser = (token) => async dispatch => {
     try {
         const res = await axios.get('/api/user');
 
+        dispatch(setAlert(`Welcome, ${res.data.name}`, "success"));
         dispatch({
             type: LOAD_USER_SUCCESS,
             payload: res.data
         });
     } catch (err) {
-        dispatch(setAlert(err.response.data.msg, "danger"));
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: LOAD_USER_FAIL
         });
@@ -57,17 +58,14 @@ export const login = ({ email, password }) => async dispatch => {
     try {
         const res = await axios.post('/api/user/login', body);
 
+
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
         });
         dispatch(loadUser(localStorage.token));
     } catch(err) {
-        const errors = err.response.data.errors;
-        if (errors && errors.length > 0) {
-            errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-        }
-
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: LOGIN_FAIL,
         });
@@ -92,13 +90,9 @@ export const register = ({ name, email, password}) => async dispatch => {
         });
         dispatch(loadUser(localStorage.token));
     } catch(err) {
-        const errors = err.response.data.errors;
-        if (errors && errors.length > 0) {
-            errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-        }
-
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
-            type: REGISTER_FAIL,
+            type: REGISTER_FAIL
         });
     }
 };

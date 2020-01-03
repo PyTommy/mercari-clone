@@ -34,18 +34,18 @@ export const createProduct = (formData) => async dispatch => {
     try {
         const res = await axios.post('/api/products', formData, config);
 
+        dispatch(setAlert("Added Product", "success"));
         dispatch({
             type: SET_PRODUCT_SUCCESS,
             payload: res.data
         });
     } catch (err) {
-        dispatch(setAlert(err.response.data.msg, "danger"));
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: SET_PRODUCT_FAIL
         });
     }
 };
-
 
 export const getProducts = () => async dispatch => {
     dispatch({
@@ -60,14 +60,13 @@ export const getProducts = () => async dispatch => {
             payload: res.data
         });
     } catch (err) {
-        // if (err.response.data) {
-        //     dispatch(setAlert(err.response.data.msg, "danger"));
-        // }
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: GET_PRODUCTS_FAIL
         });
     }
 };
+
 
 export const getProduct = (productId) => async dispatch => {
     dispatch({
@@ -82,9 +81,7 @@ export const getProduct = (productId) => async dispatch => {
             payload: res.data
         });
     } catch (err) {
-        // if (err.response.data) {
-        //     dispatch(setAlert(err.response.data.msg, "danger"));
-        // }
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: GET_PRODUCT_FAIL
         });
@@ -101,12 +98,11 @@ export const deleteProduct = (productId) => async dispatch => {
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,
+            payload: productId
         });
-        dispatch(setAlert("Product removed!"))
+        dispatch(setAlert("Product deleted", "success"));
     } catch (err) {
-        if (err.response.data) {
-            dispatch(setAlert("Deleting failed", "danger"));
-        }
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: DELETE_PRODUCT_FAIL
         });
@@ -120,15 +116,14 @@ export const addComment = (productId, text) => async dispatch => {
 
     try {
         const res = await axios.post(`/api/products/comment/${productId}`, {text});
-
+        
+        dispatch(setAlert("Added Comment", "success"));
         dispatch({
             type: ADD_COMMENT_SUCCESS,
             payload: res.data
         });
     } catch (err) {
-        // if (err.response.data) {
-        //     dispatch(setAlert("Deleting failed", "danger"));
-        // }
+        dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: ADD_COMMENT_FAIL
         });

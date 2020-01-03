@@ -10,7 +10,7 @@ import Button from '../UI/Button/Button';
 import Spinner from '../UI/Spinner/Spinner';
 import styles from './Sell.module.scss';
 
-const Sell = ({createProduct, loading}) => {
+const Sell = ({createProduct, loading, history}) => {
     const [formData, setFormData] = useState({
         productImage: "",
         title: "",
@@ -58,9 +58,10 @@ const Sell = ({createProduct, loading}) => {
         newFormData.append('description', description);
         newFormData.append('productImage', productImage);
         createProduct(newFormData);
+        history.push('/products');
     };
 
-    if (loading) return <Spinner/>;
+    if (loading.setProduct) return <Spinner/>;
     
     return (
         <div className={styles.Sell}>
@@ -134,7 +135,8 @@ const Sell = ({createProduct, loading}) => {
 }
 
 Sell.propTypes = {
-    createProduct: PropTypes.func.isRequired
+    createProduct: PropTypes.func.isRequired,
+    loading: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
