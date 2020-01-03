@@ -1,59 +1,107 @@
-import React from 'react';
+import React, {useEffect, Fragment} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {getProduct, deleteProduct} from '../../actions/product';
+import imageConverter from '../../utils/imageConverter';
 
 import styles from './SingleProduct.module.scss';
 import PictureRadius from '../UI/Pictures/PictureRadius/PictureRadius';
 import Comments from './Comments/Comments';
 import {IoIosHeartEmpty, IoIosHeart} from 'react-icons/io';
 import Button from '../UI/Button/Button';
+import Spinner from '../UI/Spinner/Spinner';
 
-const product = (props) => {
+const Product = ({
+    loading, 
+    product, 
+    getProduct,
+    history,
+    match,
+    deleteProduct,
+    auth
+}) => {
+    useEffect(() => {
+        getProduct(match.params.id);
+    },[getProduct, match.params.id]);
     const isLiked = true;
 
-    return (
-        <div className={styles.Product}>
+    if (loading) return <Spinner/>;
 
-            {/* Main Picture*/}
+    let content;
+    if (!product) {
+        content = <p>Not found!</p>
+    } else {
+        
+        const image = imageConverter(product.productImage.data);
+        let avatar;
+        if (product.avatar) {
+            avatar = `data:image/jpg;base64,${imageConverter(product.avatar.data)}`;
+        } else {
+            avatar = require("../../assets/default.png");
+        }
+
+        content = (<div className={styles.Product}>
             <div className={styles.TopBar}>
                 <div  
                     className={styles.GoBack}
-                    onClick={e => props.history.goBack()}
+                    onClick={e => history.goBack()}
                     >{"< "}Back</div>
-                <Button btnType="color-orange size-sm">Edit</Button>
-                <Button btnType="color-danger size-sm">Delete</Button>
+                { auth.isAuthenticated && auth.user._id === product.user &&(
+                    <Fragment>
+                        <Button btnType="color-orange size-sm">Edit</Button>
+                        <Button btnType="color-danger size-sm" onClick={(e) => deleteProduct(match.params.id)}>Delete</Button>
+                    </Fragment>)
+                 }
                 {
                     isLiked ? <IoIosHeart className={styles.Like} /> : <IoIosHeartEmpty className={styles.Unlike}/> 
                 }
             </div>
             <div className={styles.BottomBar}>
-                <div className={styles.BottomBarText}>3000 yen</div>
+                <div className={styles.BottomBarText}>{product.price} yen</div>
                 <Button btnType="color-primary size-lg">Buy</Button>
             </div>
 
-            <img alt="pic" className={styles.Image} src={require('../../assets/demo.jpg')}/>
+            {/* Main Picture*/}
+            <img alt="pic" className={styles.Image} src={`data:image/jpg;base64,${image}`}/>
             <div className={styles.Container}>
                 {/* Texts */}
-                <h2 className={styles.Main}>iPhone</h2>    
+                <h2 className={styles.Main}>{product.title}</h2>    
                 <ul className={styles.ItemList}>
-                    <li>Category: Bike</li>
-                    <li>Meetup Place: On Campus</li>
-                    <li>Price3000 yen</li>
+                    <li>Category: {product.category}</li>
+                    <li>Meetup Place: {product.meetupAt}</li>
                 </ul>     
                 {/* USER INFO*/}
                 <div className={styles.User}>
-                    <div className={styles.UserName}>Hiroki Tominaga</div>
+                    <div className={styles.UserName}>{product.name}</div>
                     <PictureRadius 
-                        alt="Hiroki Tominaga"
-                        src={require("../../assets/profile-pic.JPG")}
+                        alt="Profile Picture"
+                        src={avatar}
                         size="3rem"
                         className={styles.UserPicture}
                     />
                 </div>
                 <h3>Description</h3>
-                <div>Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original.</div>
+                <div>{product.description}</div>
                 <Comments />
             </div>
-        </div>
-    );
+        </div>);
+    }
+
+    return content;
 };
 
-export default product;
+Product.propTypes = {
+    product: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
+    getProduct: PropTypes.func.isRequired,
+    deleteProduct:PropTypes.func.isRequired,
+    auth: PropTypes.object,
+};
+
+const mapStateToProps = state => ({
+    product: state.product.product,
+    loading: state.product.loading,
+    auth: state.auth
+});
+
+export default connect(mapStateToProps,{getProduct, deleteProduct})(Product);

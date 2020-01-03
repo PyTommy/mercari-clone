@@ -3,13 +3,14 @@ import {connect} from 'react-redux';
 import { createProduct } from '../../actions/product';
 import PropTypes from 'prop-types';
 
+
 //Components
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
-
+import Spinner from '../UI/Spinner/Spinner';
 import styles from './Sell.module.scss';
 
-const Sell = ({createProduct}) => {
+const Sell = ({createProduct, loading}) => {
     const [formData, setFormData] = useState({
         productImage: "",
         title: "",
@@ -59,8 +60,11 @@ const Sell = ({createProduct}) => {
         createProduct(newFormData);
     };
 
+    if (loading) return <Spinner/>;
+    
     return (
         <div className={styles.Sell}>
+            <h2>Sell your product</h2>
             <form className={styles.sellForm} onSubmit={e => onSubmit(e)}>
                 <label >Image</label>
                 <input
@@ -100,7 +104,7 @@ const Sell = ({createProduct}) => {
                     required
                     />
 
-                <label>Category</label>
+                <label>Meetup Place</label>
                 <Input 
                     type="text"
                     placeholder="Meetup Place"
@@ -133,6 +137,9 @@ Sell.propTypes = {
     createProduct: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+    loading: state.product.loading
+});
 
 
-export default connect(null, {createProduct})(Sell);
+export default connect(mapStateToProps, {createProduct})(Sell);

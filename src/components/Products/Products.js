@@ -1,15 +1,27 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getProducts } from '../../actions/product';
 
 import Product from './Product/Product';
+import Spinner from '../UI/Spinner/Spinner';
 import classes from './Products.module.scss';
 
-const products = (props) => {
-    const productsData = [1, 2, 3, 4, 5, 6, 7, 8,9,10, 11];
+const Products = ({ getProducts, product: {products, loading}}) => {
+    useEffect(() => {
+        if (products.length === 0) getProducts();
+    },[]);
+    
+    const productList = products.length <= 0 ? 
+        <p>No products!!</p>
+    : 
+        products.map((product)=> {
+            return <Product key={product._id} product={product} />;
+        });
 
-    const productList = productsData.map((data)=> {
-        return <Product key={data} clicked={props.productClicked}/>
-    }) ;
+    if (loading) {
+        return <Spinner/>;
+    }
 
     return (
         <div className={classes.Products}>
@@ -18,4 +30,13 @@ const products = (props) => {
     );
 };
 
-export default products;
+Products.propTypes = {
+    product: PropTypes.object.isRequired,
+    getProducts: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+    product: state.product
+});
+
+export default connect(mapStateToProps, { getProducts })(Products);

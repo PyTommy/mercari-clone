@@ -1,42 +1,55 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
+import imageConverter from '../../../utils/imageConverter';
+import moment from 'moment';
 
 import styles from './Product.module.scss';
 import PictureRadius from '../../UI/Pictures/PictureRadius/PictureRadius';
 
-const product = (props) => {
+const product = ({history, product}) => {
+    const { _id, user, price, name, sold, title, description, category, meetupAt, date, likes, comments } = product;
+
+    const image = imageConverter(product.productImage.data);
+    
+    let avatar;
+    if (product.avatar) {
+        avatar = `data:image/jpg;base64,${imageConverter(product.avatar.data)}`;
+    } else {
+        avatar = require("../../../assets/default.png");
+    }
 
     return (
-        <div className={styles.Product} onClick={(e) => {props.history.push('/products/id')}}>
+        <div className={styles.Product} onClick={(e) => {history.push(`/products/${_id}`)}}>
             {/* USER INFO*/}
             <div className={styles.User}>
                 <PictureRadius 
-                    alt="Hiroki Tominaga"
-                    src={require("../../../assets/profile-pic.JPG")}
+                    alt="ProfilePic"
+                    src={avatar}
                     size="3rem"
                     className={styles.UserPicture}
                 />
-                <div className={styles.UserName}>Hiroki Tominaga</div>
+                <div className={styles.UserName}>{name}</div>
+                <div className={styles.Time}>{moment(date).fromNow()}</div>
             </div>
 
             {/* Main Picture*/}
-            <img alt="pic" className={styles.Image} src={require('../../../assets/demo.jpg')}/>
+            <img alt="pic" className={styles.Image} src={`data:image/jpg;base64,${image}`}/>
 
             {/* Texts */}
             <div className={styles.TextBox}>
-                <div className={styles.Main}>iPhone</div>
+                <div className={styles.Main}>{title}</div>
                 <div className={styles.Subs}>
-                    <div>3000 yen</div>
-                    <div>On Campus</div>
+                    <div>{price} yen</div>
+                    <div>{meetupAt}</div>
                 </div>
             </div>
 
             {/* Bottom bar*/}
             <div className={styles.BottomBar}>
                 <div>
-                    1 Likes
+                    {likes.length} Likes
                 </div>
-                <div>3 Comments</div>
+                <div>{comments.length} Comments</div>
             </div>
         </div>
     );

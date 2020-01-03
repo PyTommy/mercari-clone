@@ -8,7 +8,7 @@ import {logout} from '../../actions/auth';
 const MyPage = (props) => {
     const logoutHandler = () => {
         props.logout();
-        props.history.push('/home');
+        props.history.push('/');
     };
     return (
         <div>

@@ -13,10 +13,10 @@ import { register, login } from '../../actions/auth';
 const Auth = (props) => {
     // State
     const [formData, setFormData]  = useState({
-        name: "tommy",
-        email: "test@apu.ac.jp",
-        password: "testtest",
-        password2: "testtest"
+        name: "",
+        email: "",
+        password: "",
+        password2: ""
     });
     const [isSignup, setIsSignup] = useState(true);
 
