@@ -95,7 +95,7 @@ const Product = ({
                 {likeButton}
             </div>
             <div className={styles.BottomBar}>
-                <div className={styles.BottomBarText}>{product.price} yen</div>
+                <div className={styles.BottomBarText}>¥ {product.price.toLocaleString()}</div>
                 <Button btnType="color-primary size-lg">Buy</Button>
             </div>
 

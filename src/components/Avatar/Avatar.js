@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import {setAvatar} from '../../actions/auth'
 
 
-const Avatar = ({setAvatar}) => {
+const Avatar = ({setAvatar, history}) => {
     const [avatarFile, setAvatarFile] = useState(null);
 
     const onSubmit = (e) => {
         e.preventDefault();
         setAvatar(avatarFile);
+        history.push('/mypage');
     };
 
     return (

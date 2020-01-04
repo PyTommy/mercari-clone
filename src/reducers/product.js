@@ -5,6 +5,9 @@ import {
     GET_PRODUCTS_START,
     GET_PRODUCTS_SUCCESS,
     GET_PRODUCTS_FAIL,
+    REFRESH_PRODUCTS_START,
+    REFRESH_PRODUCTS_SUCCESS,
+    REFRESH_PRODUCTS_FAIL,
     GET_PRODUCT_START,
     GET_PRODUCT_SUCCESS,
     GET_PRODUCT_FAIL,
@@ -32,7 +35,8 @@ const initialState = {
         deleteProduct: false,
         comments: false,
         likes: false
-    }
+    },
+    hasMore: true,
 };
 
 export default (state = initialState, action) => {
@@ -55,6 +59,12 @@ export default (state = initialState, action) => {
                     ...state.loading,
                     getProducts: true
                 } 
+            };
+        case REFRESH_PRODUCTS_START:
+            return {
+                ...state,
+                hasMore: true,
+                products: []
             };
         case GET_PRODUCT_START:
             return {
@@ -99,13 +109,24 @@ export default (state = initialState, action) => {
                 },
             };
         case GET_PRODUCTS_SUCCESS:
+        case REFRESH_PRODUCTS_SUCCESS:
+            if (payload.length === 0) {
+                return {
+                    ...state,
+                    loading: {
+                        ...state.loading,
+                        getProducts: false
+                    },
+                    hasMore: false
+                };
+            }
             return {
                 ...state,
                 loading: {
                     ...state.loading,
                     getProducts: false
                 },
-                products: payload
+                products: [...state.products, ...payload]
             };
         case GET_PRODUCT_SUCCESS:
             return {

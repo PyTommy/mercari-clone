@@ -7,6 +7,9 @@ import {
     GET_PRODUCTS_START,
     GET_PRODUCTS_SUCCESS,
     GET_PRODUCTS_FAIL,
+    REFRESH_PRODUCTS_START,
+    REFRESH_PRODUCTS_SUCCESS,
+    REFRESH_PRODUCTS_FAIL,
     GET_PRODUCT_START,
     GET_PRODUCT_SUCCESS,
     GET_PRODUCT_FAIL,
@@ -53,13 +56,15 @@ export const createProduct = (formData) => async dispatch => {
     }
 };
 
-export const getProducts = () => async dispatch => {
+
+
+export const getProducts = (skip = 0, limit = 5) => async dispatch => {
     dispatch({
         type: GET_PRODUCTS_START
     });
 
     try {
-        const res = await axios.get('/api/products');
+        const res = await axios.get(`/api/products?limit=${limit}&skip=${skip}`);
 
         dispatch({
             type: GET_PRODUCTS_SUCCESS,
@@ -69,6 +74,26 @@ export const getProducts = () => async dispatch => {
         dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: GET_PRODUCTS_FAIL
+        });
+    }
+};
+
+export const refreshProducts = (skip = 0, limit = 5) => async dispatch => {
+    dispatch({
+        type: REFRESH_PRODUCTS_START
+    });
+
+    try {
+        const res = await axios.get(`/api/products?limit=${limit}&skip=${skip}`);
+
+        dispatch({
+            type: REFRESH_PRODUCTS_SUCCESS,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch(setAlert(err.response.data.message, "danger"));
+        dispatch({
+            type: REFRESH_PRODUCTS_FAIL
         });
     }
 };

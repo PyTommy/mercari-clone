@@ -122,6 +122,7 @@ export const setAvatar = (avatar) => async dispatch => {
     try {
         const res = await axios.post('/api/user/avatar', formData, config);
 
+        dispatch(setAlert(`Uploaded profile`, "success"));
         dispatch({
             type: SET_AVATAR_SUCCESS,
             payload: res.data

@@ -37,9 +37,9 @@ const product = ({history, product}) => {
 
             {/* Texts */}
             <div className={styles.TextBox}>
-                <div className={styles.Main}>{title}</div>
+                <div className={styles.Main}>¥ {price.toLocaleString()}</div>
                 <div className={styles.Subs}>
-                    <div>{price} yen</div>
+                    <div>{title}</div>
                     <div>{meetupAt}</div>
                 </div>
             </div>
