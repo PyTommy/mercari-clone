@@ -1,8 +1,21 @@
 import React from 'react';
-import classes from './Spinner.module.scss';
+import Loader from 'react-loader-spinner'
 
-const spinner = () => (
-    <div className={classes.Loader}>Loading...</div>
+
+export default ({style = {}, type = "TailSpin", size = 60, color = "#0084FF", timeout = 0}) => (
+    <div 
+        style={{
+            ...style,
+            width: "100%",
+            textAlign: "center", 
+        }}
+        >
+        <Loader
+            type={type}
+            color={color}
+            height={size}
+            width={size}
+            timeout={timeout} //3 secs
+        />
+    </div>
 );
-
-export default spinner;

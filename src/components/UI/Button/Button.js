@@ -15,6 +15,7 @@ const Button = ({
     btnType.includes("color-primary") && appliedClasses.push(classes.colorPrimary);
     btnType.includes("color-orange") && appliedClasses.push(classes.colorOrange);
     btnType.includes("color-danger") && appliedClasses.push(classes.colorDanger);
+    btnType.includes("border-gray") && appliedClasses.push(classes.borderGray);
 
     // Size
     btnType.includes("size-sm") && appliedClasses.push(classes.sizeSmall);

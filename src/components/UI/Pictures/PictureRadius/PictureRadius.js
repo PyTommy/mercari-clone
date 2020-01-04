@@ -11,7 +11,7 @@ import styles from './PictureRadius.module.scss';
 
 
 
-const PictureRadius = ({ className, size = "3.5rem", src, alt}) => {
+const PictureRadius = ({ style = {}, className, size = "3.5rem", src, alt, onClick}) => {
     let appliedClasses = [styles.profilePic];
     if (className) {
         appliedClasses.push(className);
@@ -20,8 +20,9 @@ const PictureRadius = ({ className, size = "3.5rem", src, alt}) => {
     return (
         <Fragment>
             <img 
+                onClick={onClick}
                 className={appliedClasses.join(" ")} 
-                style={{width: size, height: size }}
+                style={{width: size, height: size, ...style}}
                 src={src} 
                 alt={alt} 
                 />

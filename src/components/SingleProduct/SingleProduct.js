@@ -1,7 +1,7 @@
 import React, {useEffect, Fragment} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getProduct, deleteProduct} from '../../actions/product';
+import {getProduct, deleteProduct, setLike, setUnlike} from '../../actions/product';
 import imageConverter from '../../utils/imageConverter';
 
 import styles from './SingleProduct.module.scss';
@@ -18,12 +18,15 @@ const Product = ({
     history,
     match,
     deleteProduct,
-    auth
+    auth,
+    setLike,
+    setUnlike
 }) => {
     useEffect(() => {
         getProduct(match.params.id);
     },[getProduct, match.params.id]);
-    const isLiked = true;
+    
+
 
     if (loading.getProduct) return <Spinner/>;
 
@@ -39,6 +42,39 @@ const Product = ({
         } else {
             avatar = require("../../assets/default.png");
         }
+
+        let isLiked = false;
+        if (auth.isAuthenticated) {
+            isLiked = !!product.likes.find((like) => {
+                return like.user === auth.user._id;
+            }); 
+        }
+        let likeButton;
+        if (loading.likes) {
+            likeButton = <Spinner style={{margin: 0}} size={35} color="pink" />;
+        } else if (isLiked) {
+            likeButton = (
+                <button className={styles.likeButton} onClick={(e) => setUnlike(match.params.id)} >
+                    <IoIosHeart 
+                        className={styles.Like}
+                    /> 
+                </button>
+            )
+        } else { 
+            likeButton = (
+            <button className={styles.likeButton} onClick={(e) => {
+                    if (!auth.isAuthenticated) {
+                        history.push('/auth')
+                    } else {
+                        setLike(match.params.id)
+                    }
+                }}>
+                <IoIosHeartEmpty 
+                    className={styles.Unlike}
+                /> 
+            </button>)
+        }
+
 
         content = (<div className={styles.Product}>
             <div className={styles.TopBar}>
@@ -56,9 +92,7 @@ const Product = ({
                         </Button>
                     </Fragment>)
                  }
-                {
-                    isLiked ? <IoIosHeart className={styles.Like} /> : <IoIosHeartEmpty className={styles.Unlike}/> 
-                }
+                {likeButton}
             </div>
             <div className={styles.BottomBar}>
                 <div className={styles.BottomBarText}>{product.price} yen</div>
@@ -100,6 +134,8 @@ Product.propTypes = {
     getProduct: PropTypes.func.isRequired,
     deleteProduct:PropTypes.func.isRequired,
     auth: PropTypes.object,
+    setLike: PropTypes.func.isRequired,
+    setUnlike: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -108,4 +144,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps,{getProduct, deleteProduct})(Product);
+export default connect(mapStateToProps,{getProduct, deleteProduct, setLike, setUnlike})(Product);

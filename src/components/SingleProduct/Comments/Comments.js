@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -6,10 +6,15 @@ import {addComment} from '../../../actions/product';
 
 import styles from './Comments.module.scss';
 import Comment from './Comment/Comment';
-import Button from '@material-ui/core/Button';
+import Button from '../../UI/Button/Button';
+import Spinner from '../../UI/Spinner/Spinner';
 
-const Comments = ({ addComment, auth, comments, history, match}) => {
+const Comments = ({ addComment, auth, comments, history, match, loading}) => {
     const [ newComment, setNewComment ] = useState("");
+
+    useEffect(() => {
+        setNewComment(() => "");
+    }, [comments]);
 
     return (
         <Fragment>
@@ -27,8 +32,7 @@ const Comments = ({ addComment, auth, comments, history, match}) => {
                 }}
             ></textarea>  
             <Button
-                variant="contained"
-                color="primary"
+                btnType="color-primary"
                 className={styles.button}
                 onClick={e => {
                     if (!auth.isAuthenticated) {
@@ -40,7 +44,9 @@ const Comments = ({ addComment, auth, comments, history, match}) => {
                         addComment(match.params.id, newComment);
                     }
                 }}
-                >Send
+                >{loading 
+                    ? <Spinner size={15} style={{margin: 0}} color="white" ></Spinner>
+                    : "SEND"}
             </Button>        
             </div>
         </Fragment>
@@ -54,6 +60,7 @@ Comments.propTypes = {
 
 const mapStateToProps = state => ({
     comments: state.product.product.comments,
+    loading: state.product.loading.comments,
     auth: state.auth,
     addComment: PropTypes.func.isRequired,
 });

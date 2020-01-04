@@ -16,6 +16,12 @@ import {
     ADD_COMMENT_START,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAIL,
+    SET_LIKE_START,
+    SET_LIKE_SUCCESS,
+    SET_LIKE_FAIL,
+    SET_UNLIKE_START,
+    SET_UNLIKE_SUCCESS,
+    SET_UNLIKE_FAIL,
 } from './actionType.js';
 import {setAlert} from './alert';
 
@@ -126,6 +132,43 @@ export const addComment = (productId, text) => async dispatch => {
         dispatch(setAlert(err.response.data.message, "danger"));
         dispatch({
             type: ADD_COMMENT_FAIL
+        });
+    }
+};
+
+export const setLike = (productId) => async dispatch => {
+    dispatch({
+        type: SET_LIKE_START
+    });
+
+    try {
+        const res = await axios.put(`/api/products/like/${productId}`);        
+        dispatch({
+            type: SET_LIKE_SUCCESS,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch(setAlert(err.response.data.message, "danger"));
+        dispatch({
+            type: SET_LIKE_FAIL
+        });
+    }
+};
+export const setUnlike = (productId) => async dispatch => {
+    dispatch({
+        type: SET_UNLIKE_START
+    });
+
+    try {
+        const res = await axios.put(`/api/products/unlike/${productId}`);        
+        dispatch({
+            type: SET_UNLIKE_SUCCESS,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch(setAlert(err.response.data.message, "danger"));
+        dispatch({
+            type: SET_UNLIKE_FAIL
         });
     }
 };

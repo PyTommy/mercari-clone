@@ -16,7 +16,12 @@ import {
     LOGIN_FAIL,
 
     // LOGOUT
-    LOGOUT
+    LOGOUT,
+
+    // AVATAR
+    SET_AVATAR_START,
+    SET_AVATAR_SUCCESS,
+    SET_AVATAR_FAIL,
 } from './actionType';
 import { setAlert } from './alert';
 
@@ -100,3 +105,31 @@ export const register = ({ name, email, password}) => async dispatch => {
 export const logout = () => ({
     type: LOGOUT
 });
+
+export const setAvatar = (avatar) => async dispatch => {
+    dispatch({
+        type: SET_AVATAR_START
+    });
+
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    const formData = new FormData();
+    formData.append('avatar', avatar);
+
+    try {
+        const res = await axios.post('/api/user/avatar', formData, config);
+
+        dispatch({
+            type: SET_AVATAR_SUCCESS,
+            payload: res.data
+        });
+    } catch(err) {
+        dispatch(setAlert(err.response.data.message, "danger"));
+        dispatch({
+            type: SET_AVATAR_FAIL
+        });
+    }
+};

@@ -20,6 +20,12 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 // Logout
 export const LOGOUT = "LOGOUT";
 
+// Upload avatar
+export const SET_AVATAR_START = "SET_AVATAR_START";
+export const SET_AVATAR_SUCCESS = "SET_AVATAR_SUCCESS";
+export const SET_AVATAR_FAIL = "SET_AVATAR_FAIL";
+
+
 // ==========
 // Alert
 // ==========
@@ -55,3 +61,12 @@ export const DELETE_PRODUCT_FAIL = "DELETE_PRODUCT_FAIL";
 export const ADD_COMMENT_START = "ADD_COMMENT_START";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
+
+// Like 
+export const SET_LIKE_START = "SET_LIKE_START";
+export const SET_LIKE_SUCCESS = "SET_LIKE_SUCCESS";
+export const SET_LIKE_FAIL = "SET_LIKE_FAIL";
+// Unlike 
+export const SET_UNLIKE_START = "SET_UNLIKE_START";
+export const SET_UNLIKE_SUCCESS = "SET_UNLIKE_SUCCESS";
+export const SET_UNLIKE_FAIL = "SET_UNLIKE_FAIL";
